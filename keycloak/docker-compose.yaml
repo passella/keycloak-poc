@@ -1,0 +1,12 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.6
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./keycloak-data:/opt/jboss/keycloak/data
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
