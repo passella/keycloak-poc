@@ -6,4 +6,6 @@ export interface AuthService {
     logout(): void
 
     isAuthorized(role: string): boolean;
+
+    cleanLogout(code: string): void;
 }

@@ -8,6 +8,7 @@ import Pessoas from "./components/Pessoas/Pessoas.tsx";
 import Home from "./components/Home/Home.tsx";
 import ApplicationContexProvider from "./contexts/ApplicationContext/ApplicationContex.tsx";
 import Auth from "./components/Auth/Auth.tsx";
+import Logout from "./components/Logout/Logout.tsx";
 
 
 export async function postAction({params, request}) {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
         children: [
             {path: "/", element: <Home/>},
             {path: "/produtos", element: <Auth role="PRODUTOS"><Produtos/></Auth>},
-            {path: "/pessoas", element: <Auth role="PESSOAS"><Pessoas/></Auth>}
+            {path: "/pessoas", element: <Auth role="PESSOAS"><Pessoas/></Auth>},
+            {path: "/logout/:code", element: <Logout/>}
         ]
     },
     {path: "/auth", element: <Auth/>},
@@ -35,6 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <ApplicationContexProvider>
             <RouterProvider router={router}/>
+
         </ApplicationContexProvider>
     </React.StrictMode>,
 )

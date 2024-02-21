@@ -1,11 +1,19 @@
-import {useContext} from "react";
+import React, {ReactNode, useContext, useEffect, useState} from "react";
 import {ApplicationContext} from "../../contexts/ApplicationContext/ApplicationContex.tsx";
-import Home from "../Home/Home.tsx";
+import {Navigate} from "react-router-dom";
 
-export default function Auth({children, role}: Readonly<{ children: React.ReactNode, role: string }>) {
 
-    const {authService} = useContext(ApplicationContext);
+export default function Auth({children, role}: Readonly<{ children: ReactNode, role: string }>) {
 
+    const {authService, notificationService} = useContext(ApplicationContext);
+    const [isAuthorized, setIsAuthorized] = useState(true);
+
+    useEffect(() => {
+        if (role && !authService.isAuthorized(role)) {
+            notificationService.error("Usuario sem autorização para acessar essa rota!");
+            setIsAuthorized(false);
+        }
+    }, [role]);
 
     if (authService.isAuthenticationCallBack()) {
         authService.authenticate()
@@ -13,8 +21,10 @@ export default function Auth({children, role}: Readonly<{ children: React.ReactN
     } else if (!authService.isAuthenticated()) {
         authService.login();
         return null;
-    } else if (role && !authService.isAuthorized(role)) {
-        return <Home/>;
+    } else if (!isAuthorized) {
+        return <Navigate to="/">
+
+        </Navigate>
     }
 
     return children;
